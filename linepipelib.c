@@ -29,11 +29,12 @@ void increaseBuffer(char **str, int c)
 Node CreateList(int nodesNumber, char *text)
 {
     printf("text: %s\n", text);
-    char newLine[3] = "";
-    printf("Data Size: %ld\n", strlen(text));
+    char *newLine = (char *) malloc(nodesNumber);
+    //char newLine[3] = "";
+    
 
-    //  subString(text, 0, nodesNumber, newLine);
     strncpy(newLine, text, nodesNumber);
+    printf("Data Size: %ld\n", strlen(newLine));
     printf("substring: %s\n", newLine);
     Node *cur, *tmp;
 
@@ -56,6 +57,8 @@ Node CreateList(int nodesNumber, char *text)
         cur->next = tmp;
         cur = cur->next;
     }
+    free(newLine);
+    newLine=NULL;
 }
 
 void PrintList(Node *head)
@@ -88,16 +91,3 @@ void DeleteList(Node *head)
     }
 }
 
-char *subString(const char *input, int offset, int len, char *dest)
-{
-    int input_len = strlen(input);
-
-    if (offset + len > input_len)
-    {
-        return NULL;
-    }
-
-    strncpy(dest, input + offset, len);
-    printf("substring: %s\n", dest);
-    return dest;
-}

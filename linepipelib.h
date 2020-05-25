@@ -18,6 +18,4 @@ void PrintList(Node *head);
 
 void DeleteList(Node *head);
 
-char* subString (const char* input, int offset, int len, char* dest);
-
 #endif
