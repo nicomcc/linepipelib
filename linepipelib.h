@@ -12,10 +12,12 @@ Node *head;
 
 void increaseBuffer(char **str, int c);
 
-Node CreateList (int nodesNumber);
+Node CreateList (int nodesNumber, char *text);
 
 void PrintList(Node *head);
 
 void DeleteList(Node *head);
+
+char* subString (const char* input, int offset, int len, char* dest);
 
 #endif

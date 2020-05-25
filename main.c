@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         {
             increaseBuffer(&pipeData, input);
         }
-        CreateList(5);
+        CreateList(2, pipeData);
         PrintList(head);
         //print data and free memory
         // printf("%s", pipeData);

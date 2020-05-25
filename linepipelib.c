@@ -26,20 +26,32 @@ void increaseBuffer(char **str, int c)
     }
 }
 
-Node CreateList(int nodesNumber)
+Node CreateList(int nodesNumber, char *text)
 {
+    printf("text: %s\n", text);
+    char newLine[3] = "";
+    printf("Data Size: %ld\n", strlen(text));
+
+    //  subString(text, 0, nodesNumber, newLine);
+    strncpy(newLine, text, nodesNumber);
+    printf("substring: %s\n", newLine);
     Node *cur, *tmp;
 
     tmp = (Node *)malloc(sizeof(Node));
-    tmp->line = "asd";
+    tmp->line = (char *)malloc(strlen(newLine) + 1);
+    strcpy(tmp->line, newLine);
     tmp->next = NULL;
     head = tmp;
     cur = head;
 
-    for (int i = 2; i < nodesNumber; i++)
+    for (int i = 1; i < 5; i++)
     {
+        // subString(text, i*2, nodesNumber, newLine);
+        strncpy(newLine, text + (i * nodesNumber), nodesNumber);
+        printf("substring: %s\n", newLine);
         tmp = (Node *)malloc(sizeof(Node));
-        tmp->line = "asd";
+        tmp->line = (char *)malloc(strlen(newLine) + 1);
+        strcpy(tmp->line, newLine);
         tmp->next = NULL;
         cur->next = tmp;
         cur = cur->next;
@@ -54,7 +66,7 @@ void PrintList(Node *head)
     //start from the beginning
     while (ptr != NULL)
     {
-        printf("%s", ptr->line);
+        printf("list value: %s\n", ptr->line);
         ptr = ptr->next;
     }
 
@@ -69,7 +81,23 @@ void DeleteList(Node *head)
     {
         tmp = head;
         head = head->next;
+        free(tmp->line);
+        tmp->line = NULL;
         free(tmp);
         tmp = NULL;
     }
+}
+
+char *subString(const char *input, int offset, int len, char *dest)
+{
+    int input_len = strlen(input);
+
+    if (offset + len > input_len)
+    {
+        return NULL;
+    }
+
+    strncpy(dest, input + offset, len);
+    printf("substring: %s\n", dest);
+    return dest;
 }
