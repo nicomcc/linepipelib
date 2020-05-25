@@ -19,4 +19,10 @@ void DeleteList(Node *head);
 
 int NumberOfNodes(int text_size, int line_size);
 
+void BubbleSort(Node *start) ;
+
+void Swap(Node *a, Node*b);
+
+void PrintReverseList(Node *head);
+
 #endif

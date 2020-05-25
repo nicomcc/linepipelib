@@ -32,7 +32,7 @@ Node CreateList(int lineSize, char *text)
     printf("Number of lines: %d\n", nodes);
 
     //line memory size based on user input
-    char *newLine = (char *)malloc(lineSize);
+    char *newLine = (char *)malloc(lineSize * sizeof(char));
     if (!newLine)
     {
         printf("\nMemory allocation error\n");
@@ -40,7 +40,6 @@ Node CreateList(int lineSize, char *text)
     else
     {
         strncpy(newLine, text, lineSize);
-        printf("substring: %s\n", newLine);
     }
     //nodes for list creation
     Node *cur, *tmp;
@@ -85,17 +84,27 @@ Node CreateList(int lineSize, char *text)
 
 void PrintList(Node *head)
 {
-    int line = 1;
     Node *ptr = head;
-    printf("\nList Nodes: \n");
-
     //start from the beginning
     while (ptr != NULL)
     {
-        printf("Line[%d]: %s\n", line, ptr->line);
+        printf("%s\n", ptr->line);
         ptr = ptr->next;
-        line++;
     }
+}
+
+/* Function to reverse the linked list */
+void PrintReverseList(Node *head)
+{
+    
+    if (head == NULL)
+        return;
+
+    // print the list after head node
+    PrintReverseList(head->next);
+
+    // After everything else is printed, print head
+    printf("%s\n", head->line);
 }
 
 //free dinamically alocated memory from list nodes
@@ -117,7 +126,44 @@ void DeleteList(Node *head)
 //check if text size is divisible by line_size
 int NumberOfNodes(int text_size, int line_size)
 {
-    printf("text size: %d\n", text_size);
-    printf("line size: %d\n", line_size);
-    return (text_size % line_size) == 0 ? (text_size / line_size) : ((text_size / line_size) + 1);
+    printf("Text size: %d\n", text_size - 1);
+    printf("Line size: %d\n", line_size);
+    return ((text_size - 1) % line_size) == 0 ? ((text_size - 1) / line_size) : (((text_size - 1) / line_size) + 1);
+}
+
+/* Bubble sort the given linked list */
+void BubbleSort(Node *start)
+{
+    int swapped, i;
+    Node *ptr1;
+    Node *lptr = NULL;
+
+    /* Checking for empty list */
+    if (start == NULL)
+        return;
+
+    do
+    {
+        swapped = 0;
+        ptr1 = start;
+
+        while (ptr1->next != lptr)
+        {
+            if (strcmp(ptr1->line, ptr1->next->line) > 0)
+            {
+                Swap(ptr1, ptr1->next);
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+/* function to swap data of two nodes a and b*/
+void Swap(Node *a, Node *b)
+{
+    char *temp = a->line;
+    a->line = b->line;
+    b->line = temp;
 }
