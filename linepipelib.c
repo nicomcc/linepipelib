@@ -50,7 +50,11 @@ Node CreateList(int lineSize, char *text)
         //gets first line
         else
         {
-            strcpy(tmp->line, line);
+            //check if linesize is bigger than user input
+            if (strlen(line) <= lineSize)
+                strcpy(tmp->line, line);
+            else
+                strncpy(tmp->line, line, lineSize);
             line = strtok(NULL, "\n");
         }
 
@@ -71,7 +75,11 @@ Node CreateList(int lineSize, char *text)
             {
                 tmp->line = (char *)malloc(strlen(line));
 
-                strcpy(tmp->line, line);
+                //check if linesize is bigger than user input
+                if (strlen(line) <= lineSize)
+                    strcpy(tmp->line, line);
+                else
+                    strncpy(tmp->line, line, lineSize);
                 line = strtok(NULL, "\n");
 
                 tmp->next = NULL;
@@ -127,15 +135,14 @@ void DeleteList(Node *head)
     }
 }
 
-
-// Bubble sort the given linked list 
+// Bubble sort the given linked list
 void BubbleSort(Node *start)
 {
     int swapped, i;
     Node *ptr1;
     Node *lptr = NULL;
 
-    // Checking for empty list 
+    // Checking for empty list
     if (start == NULL)
         return;
 
