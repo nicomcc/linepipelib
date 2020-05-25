@@ -3,8 +3,6 @@
 #include <string.h>
 #include "linepipelib.h"
 
-
-
 int main(int argc, char *argv[])
 {
     char *pipeData = NULL;
@@ -20,11 +18,11 @@ int main(int argc, char *argv[])
         {
             increaseBuffer(&pipeData, input);
         }
-        CreateList(3, pipeData);
-        PrintList(head);
-        //print data and free memory
-        // printf("%s", pipeData);
+        //Creates linked list based on data read from pipe and desired line size from input
+        CreateList(lineSize, pipeData);
 
+        //print data and free memory
+        PrintList(head);
         DeleteList(head);
         free(pipeData);
         pipeData = NULL;

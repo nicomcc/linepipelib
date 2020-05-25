@@ -22,44 +22,60 @@ void increaseBuffer(char **str, int c)
         *str = buffer;
         buffer[len] = c;
         buffer[len + 1] = 0;
-        printf("Buffer Size: %ld\n", len);
     }
 }
 
 Node CreateList(int lineSize, char *text)
 {
 
-    int nodes = NumberOfNodes(strlen(text) ,lineSize);
-    printf("number of nodes: %d\n", nodes);
-
-
-    printf("text: %s\n", text);
+    int nodes = NumberOfNodes(strlen(text), lineSize);
+    printf("Number of lines: %d\n", nodes);
 
     //line memory size based on user input
     char *newLine = (char *)malloc(lineSize);
-    strncpy(newLine, text, lineSize);
-    printf("substring: %s\n", newLine);
-
+    if (!newLine)
+    {
+        printf("\nMemory allocation error\n");
+    }
+    else
+    {
+        strncpy(newLine, text, lineSize);
+        printf("substring: %s\n", newLine);
+    }
     //nodes for list creation
     Node *cur, *tmp;
 
     tmp = (Node *)malloc(sizeof(Node));
-    tmp->line = (char *)malloc(strlen(newLine) + 1);
-    strcpy(tmp->line, newLine);
-    tmp->next = NULL;
-    head = tmp;
-    cur = head;
-
-    for (int i = 1; i < nodes; i++)
+    if (!tmp)
     {
-        strncpy(newLine, text + (i * lineSize), lineSize);
-        printf("substring: %s\n", newLine);
-        tmp = (Node *)malloc(sizeof(Node));
+        printf("\nMemory allocation error\n");
+    }
+
+    else
+    {
         tmp->line = (char *)malloc(strlen(newLine) + 1);
-        strcpy(tmp->line, newLine);
+        if (!tmp->line)
+        {
+            printf("\nMemory allocation error\n");
+        }
+        else
+        {
+            strcpy(tmp->line, newLine);
+        }
         tmp->next = NULL;
-        cur->next = tmp;
-        cur = cur->next;
+        head = tmp;
+        cur = head;
+
+        for (int i = 1; i < nodes; i++)
+        {
+            strncpy(newLine, text + (i * lineSize), lineSize);
+            tmp = (Node *)malloc(sizeof(Node));
+            tmp->line = (char *)malloc(strlen(newLine) + 1);
+            strcpy(tmp->line, newLine);
+            tmp->next = NULL;
+            cur->next = tmp;
+            cur = cur->next;
+        }
     }
 
     //free newline heap memory
@@ -69,19 +85,20 @@ Node CreateList(int lineSize, char *text)
 
 void PrintList(Node *head)
 {
+    int line = 1;
     Node *ptr = head;
-    printf("\n[ ");
+    printf("\nList Nodes: \n");
 
     //start from the beginning
     while (ptr != NULL)
     {
-        printf("list value: %s\n", ptr->line);
+        printf("Line[%d]: %s\n", line, ptr->line);
         ptr = ptr->next;
+        line++;
     }
-
-    printf(" ]");
 }
 
+//free dinamically alocated memory from list nodes
 void DeleteList(Node *head)
 {
     Node *tmp;
@@ -97,9 +114,10 @@ void DeleteList(Node *head)
     }
 }
 
+//check if text size is divisible by line_size
 int NumberOfNodes(int text_size, int line_size)
 {
     printf("text size: %d\n", text_size);
     printf("line size: %d\n", line_size);
-   return (text_size % line_size) == 0 ?  (text_size / line_size) :  ((text_size / line_size) + 1);
+    return (text_size % line_size) == 0 ? (text_size / line_size) : ((text_size / line_size) + 1);
 }
