@@ -27,21 +27,9 @@ void increaseBuffer(char **str, int c)
 
 Node CreateList(int lineSize, char *text)
 {
+    char *line;
 
-    int nodes = NumberOfNodes(strlen(text), lineSize);
-    printf("Number of lines: %d\n", nodes);
-
-    //line memory size based on user input
-    char *newLine = (char *)malloc(lineSize * sizeof(char));
-    if (!newLine)
-    {
-        printf("\nMemory allocation error\n");
-    }
-    else
-    {
-        strncpy(newLine, text, lineSize);
-    }
-    //nodes for list creation
+    //nodes for list construction
     Node *cur, *tmp;
 
     tmp = (Node *)malloc(sizeof(Node));
@@ -50,36 +38,52 @@ Node CreateList(int lineSize, char *text)
         printf("\nMemory allocation error\n");
     }
 
+    //head node
     else
     {
-        tmp->line = (char *)malloc(strlen(newLine) + 1);
+        line = strtok(text, "\n");
+        tmp->line = (char *)malloc(strlen(line) + 1);
         if (!tmp->line)
         {
             printf("\nMemory allocation error\n");
         }
+        //gets first line
         else
         {
-            strcpy(tmp->line, newLine);
+            strcpy(tmp->line, line);
+            line = strtok(NULL, "\n");
         }
+
         tmp->next = NULL;
         head = tmp;
         cur = head;
 
-        for (int i = 1; i < nodes; i++)
+        //create list nodes from text line split
+        while (line != NULL)
         {
-            strncpy(newLine, text + (i * lineSize), lineSize);
             tmp = (Node *)malloc(sizeof(Node));
-            tmp->line = (char *)malloc(strlen(newLine) + 1);
-            strcpy(tmp->line, newLine);
-            tmp->next = NULL;
-            cur->next = tmp;
-            cur = cur->next;
+            if (!tmp)
+            {
+                printf("\nMemory allocation error\n");
+            }
+
+            else
+            {
+                tmp->line = (char *)malloc(strlen(line));
+
+                strcpy(tmp->line, line);
+                line = strtok(NULL, "\n");
+
+                tmp->next = NULL;
+                cur->next = tmp;
+                cur = cur->next;
+            }
         }
     }
 
-    //free newline heap memory
-    free(newLine);
-    newLine = NULL;
+    //free line heap memory
+    free(line);
+    line = NULL;
 }
 
 void PrintList(Node *head)
@@ -93,10 +97,10 @@ void PrintList(Node *head)
     }
 }
 
-/* Function to reverse the linked list */
+/* Function to reverse linked list */
 void PrintReverseList(Node *head)
 {
-    
+
     if (head == NULL)
         return;
 
@@ -123,22 +127,15 @@ void DeleteList(Node *head)
     }
 }
 
-//check if text size is divisible by line_size
-int NumberOfNodes(int text_size, int line_size)
-{
-    printf("Text size: %d\n", text_size - 1);
-    printf("Line size: %d\n", line_size);
-    return ((text_size - 1) % line_size) == 0 ? ((text_size - 1) / line_size) : (((text_size - 1) / line_size) + 1);
-}
 
-/* Bubble sort the given linked list */
+// Bubble sort the given linked list 
 void BubbleSort(Node *start)
 {
     int swapped, i;
     Node *ptr1;
     Node *lptr = NULL;
 
-    /* Checking for empty list */
+    // Checking for empty list 
     if (start == NULL)
         return;
 
@@ -160,7 +157,7 @@ void BubbleSort(Node *start)
     } while (swapped);
 }
 
-/* function to swap data of two nodes a and b*/
+// function to swap data of two nodes a and b
 void Swap(Node *a, Node *b)
 {
     char *temp = a->line;

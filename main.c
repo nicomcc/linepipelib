@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     char *pipeData = NULL;
     int input;
     int lineSize;
+    int lineCount = 0;
 
     if (argc > 1)
     {
@@ -17,21 +18,25 @@ int main(int argc, char *argv[])
         while ((input = getchar()) != EOF)
         {
             //prevents from jumping line
-            if(input == '\n' || input == '\r') continue;
+            if(input == '\n' || input == '\r') {
+                lineCount++;
+            }
             increaseBuffer(&pipeData, input);
         }
+
+        //printf("Line Count is: %d\n", lineCount);
         //Creates linked list based on data read from pipe and desired line size from input
         CreateList(lineSize, pipeData);
 
         
-        printf("\nOriginal List: \n");
+        printf("\n***********Original lines***********\n");
         PrintList(head);
         
         BubbleSort(head);
-        printf("\nSorted List: \n");
+        printf("\n***********Sorted List***********\n");
         PrintList(head);
 
-        printf("\nReverse Sorted List: \n");
+        printf("\n***********Reverse Sorted List***********\n");
         PrintReverseList(head);
 
         //free memory
