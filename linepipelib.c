@@ -26,16 +26,21 @@ void increaseBuffer(char **str, int c)
     }
 }
 
-Node CreateList(int nodesNumber, char *text)
+Node CreateList(int lineSize, char *text)
 {
-    printf("text: %s\n", text);
-    char *newLine = (char *) malloc(nodesNumber);
-    //char newLine[3] = "";
-    
 
-    strncpy(newLine, text, nodesNumber);
-    printf("Data Size: %ld\n", strlen(newLine));
+    int nodes = NumberOfNodes(strlen(text) ,lineSize);
+    printf("number of nodes: %d\n", nodes);
+
+
+    printf("text: %s\n", text);
+
+    //line memory size based on user input
+    char *newLine = (char *)malloc(lineSize);
+    strncpy(newLine, text, lineSize);
     printf("substring: %s\n", newLine);
+
+    //nodes for list creation
     Node *cur, *tmp;
 
     tmp = (Node *)malloc(sizeof(Node));
@@ -45,10 +50,9 @@ Node CreateList(int nodesNumber, char *text)
     head = tmp;
     cur = head;
 
-    for (int i = 1; i < 5; i++)
+    for (int i = 1; i < nodes; i++)
     {
-        // subString(text, i*2, nodesNumber, newLine);
-        strncpy(newLine, text + (i * nodesNumber), nodesNumber);
+        strncpy(newLine, text + (i * lineSize), lineSize);
         printf("substring: %s\n", newLine);
         tmp = (Node *)malloc(sizeof(Node));
         tmp->line = (char *)malloc(strlen(newLine) + 1);
@@ -57,8 +61,10 @@ Node CreateList(int nodesNumber, char *text)
         cur->next = tmp;
         cur = cur->next;
     }
+
+    //free newline heap memory
     free(newLine);
-    newLine=NULL;
+    newLine = NULL;
 }
 
 void PrintList(Node *head)
@@ -91,3 +97,9 @@ void DeleteList(Node *head)
     }
 }
 
+int NumberOfNodes(int text_size, int line_size)
+{
+    printf("text size: %d\n", text_size);
+    printf("line size: %d\n", line_size);
+   return (text_size % line_size) == 0 ?  (text_size / line_size) :  ((text_size / line_size) + 1);
+}

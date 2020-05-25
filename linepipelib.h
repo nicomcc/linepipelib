@@ -12,7 +12,7 @@ Node *head;
 
 void increaseBuffer(char **str, int c);
 
-Node CreateList (int nodesNumber, char *text);
+Node CreateList (int lineSize, char *text);
 
 void PrintList(Node *head);
 
